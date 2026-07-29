@@ -7,24 +7,233 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Student Performance Predictor</title>
+    <title>AI Student Performance Predictor</title>
 
-    <link rel="stylesheet"
-          href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 
 </head>
 
 <body>
 
-<div class="container">
+    <main class="container">
 
-    <h1>🎓 Student Performance Predictor</h1>
+        <h1>🎓 AI Student Performance Predictor</h1>
 
-    <p>
-        Predict a student's exam score using Machine Learning.
-    </p>
+        <p>
+            Predict student exam scores using Machine Learning.
+        </p>
 
-</div>
+        <form class="prediction-form" action="/predict" method="POST">
+
+            <div class="form-grid">
+
+                <div class="form-group">
+                    <label>Hours Studied</label>
+                    <input type="number" name="Hours_Studied" placeholder="Enter hours"
+                        value="{{ form_data.get('Hours_Studied','') }}">
+                </div>
+
+                <div class="form-group">
+                    <label>Attendance (%)</label>
+                    <input type="number" name="Attendance" placeholder="Enter attendance"
+                        value="{{ form_data.get('Attendance','') }}">
+                </div>
+
+                <div class="form-group">
+                    <label>Previous Scores</label>
+                    <input type="number" name="Previous_Scores" placeholder="Enter score"
+                        value="{{ form_data.get('Previous_Scores','') }}">
+                </div>
+
+                <div class="form-group">
+                    <label>Sleep Hours</label>
+                    <input type="number" name="Sleep_Hours" placeholder="Enter sleep hours"
+                        value="{{ form_data.get('Sleep_Hours','') }}">
+                </div>
+
+                <div class="form-group">
+                    <label>Tutoring Sessions</label>
+                    <input type="number" name="Tutoring_Sessions" placeholder="Enter sessions"
+                        value="{{ form_data.get('Tutoring_Sessions','') }}">
+                </div>
+
+                <div class="form-group">
+                    <label>Physical Activity</label>
+                    <input type="number" name="Physical_Activity" placeholder="Enter hours"
+                        value="{{ form_data.get('Physical_Activity','') }}">
+                </div>
+
+                <div class="form-group">
+                    <label>Parental Involvement</label>
+                    <select name="Parental_Involvement">
+                        <option value="Low" {{ 'selected' if form_data.get('Parental_Involvement')=='Low' else '' }}>Low
+                        </option>
+                        <option value="Medium" {{ 'selected' if form_data.get('Parental_Involvement')=='Medium' else ''
+                            }}>Medium</option>
+                        <option value="High" {{ 'selected' if form_data.get('Parental_Involvement')=='High' else '' }}>
+                            High</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Access to Resources</label>
+                    <select name="Access_to_Resources">
+                        <option value="Low" {{ 'selected' if form_data.get('Access_to_Resources')=='Low' else '' }}>Low
+                        </option>
+                        <option value="Medium" {{ 'selected' if form_data.get('Access_to_Resources')=='Medium' else ''
+                            }}>Medium</option>
+                        <option value="High" {{ 'selected' if form_data.get('Access_to_Resources')=='High' else '' }}>
+                            High</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Motivation Level</label>
+                    <select name="Motivation_Level">
+                        <option value="Low" {{ 'selected' if form_data.get('Motivation_Level')=='Low' else '' }}>Low
+                        </option>
+                        <option value="Medium" {{ 'selected' if form_data.get('Motivation_Level')=='Medium' else '' }}>
+                            Medium</option>
+                        <option value="High" {{ 'selected' if form_data.get('Motivation_Level')=='High' else '' }}>High
+                        </option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Family Income</label>
+                    <select name="Family_Income">
+                        <option value="Low" {{ 'selected' if form_data.get('Family_Income')=='Low' else '' }}>Low
+                        </option>
+                        <option value="Medium" {{ 'selected' if form_data.get('Family_Income')=='Medium' else '' }}>
+                            Medium</option>
+                        <option value="High" {{ 'selected' if form_data.get('Family_Income')=='High' else '' }}>High
+                        </option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Teacher Quality</label>
+                    <select name="Teacher_Quality">
+                        <option value="Low" {{ 'selected' if form_data.get('Teacher_Quality')=='Low' else '' }}>Low
+                        </option>
+                        <option value="Medium" {{ 'selected' if form_data.get('Teacher_Quality')=='Medium' else '' }}>
+                            Medium</option>
+                        <option value="High" {{ 'selected' if form_data.get('Teacher_Quality')=='High' else '' }}>High
+                        </option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Peer Influence</label>
+                    <select name="Peer_Influence">
+                        <option value="Negative" {{ 'selected' if form_data.get('Peer_Influence')=='Negative' else ''
+                            }}>Negative</option>
+                        <option value="Neutral" {{ 'selected' if form_data.get('Peer_Influence')=='Neutral' else '' }}>
+                            Neutral</option>
+                        <option value="Positive" {{ 'selected' if form_data.get('Peer_Influence')=='Positive' else ''
+                            }}>Positive</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Distance From Home</label>
+                    <select name="Distance_from_Home">
+                        <option value="Near" {{ 'selected' if form_data.get('Distance_from_Home')=='Near' else '' }}>
+                            Near</option>
+                        <option value="Moderate" {{ 'selected' if form_data.get('Distance_from_Home')=='Moderate'
+                            else '' }}>Moderate</option>
+                        <option value="Far" {{ 'selected' if form_data.get('Distance_from_Home')=='Far' else '' }}>Far
+                        </option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Parental Education</label>
+                    <select name="Parental_Education_Level">
+                        <option value="High School" {{ 'selected' if
+                            form_data.get('Parental_Education_Level')=='High School' else '' }}>High School</option>
+                        <option value="College" {{ 'selected' if form_data.get('Parental_Education_Level')=='College'
+                            else '' }}>College</option>
+                        <option value="Postgraduate" {{ 'selected' if
+                            form_data.get('Parental_Education_Level')=='Postgraduate' else '' }}>Postgraduate</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Extracurricular Activities</label>
+                    <select name="Extracurricular_Activities">
+                        <option value="Yes" {{ 'selected' if form_data.get('Extracurricular_Activities')=='Yes' else ''
+                            }}>Yes</option>
+                        <option value="No" {{ 'selected' if form_data.get('Extracurricular_Activities')=='No' else ''
+                            }}>No</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Internet Access</label>
+                    <select name="Internet_Access">
+                        <option value="Yes" {{ 'selected' if form_data.get('Internet_Access')=='Yes' else '' }}>Yes
+                        </option>
+                        <option value="No" {{ 'selected' if form_data.get('Internet_Access')=='No' else '' }}>No
+                        </option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>School Type</label>
+                    <select name="School_Type">
+                        <option value="Public" {{ 'selected' if form_data.get('School_Type')=='Public' else '' }}>Public
+                        </option>
+                        <option value="Private" {{ 'selected' if form_data.get('School_Type')=='Private' else '' }}>
+                            Private</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Learning Disabilities</label>
+                    <select name="Learning_Disabilities">
+                        <option value="Yes" {{ 'selected' if form_data.get('Learning_Disabilities')=='Yes' else '' }}>
+                            Yes</option>
+                        <option value="No" {{ 'selected' if form_data.get('Learning_Disabilities')=='No' else '' }}>No
+                        </option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Gender</label>
+                    <select name="Gender">
+                        <option value="Male" {{ 'selected' if form_data.get('Gender')=='Male' else '' }}>Male</option>
+                        <option value="Female" {{ 'selected' if form_data.get('Gender')=='Female' else '' }}>Female
+                        </option>
+                    </select>
+                </div>
+
+            </div>
+
+            <button class="start-btn">
+
+                🚀 Predict Exam Score
+
+            </button>
+
+            {% if prediction %}
+
+            <div class="result-card">
+
+                <h2>⭐ Predicted Exam Score</h2>
+
+                <h1>{{ prediction }}</h1>
+
+            </div>
+
+            {% endif %}
+
+        </form>
+
+    </main>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 
 </body>
+
 </html>
